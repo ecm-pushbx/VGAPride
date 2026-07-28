@@ -56,7 +56,7 @@ with open(os.path.join('..','crabs.cpp'),'w') as outcrabs:
 				outbuffers.append(cbuffer)
 			for i,buffer in enumerate(outbuffers):
 				proc=subprocess.Popen(
-					['lzsa', '-N', '-S', '-f', '1', '--prefer-ratio', '-v', '-', TEMPFILE],
+					['lzsa', '-N', '-S', '-f', '2', '--prefer-ratio', '-v', '-', TEMPFILE],
 					stdin=subprocess.PIPE,
 					stdout=subprocess.PIPE,
 					stderr=subprocess.STDOUT
