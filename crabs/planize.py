@@ -69,7 +69,7 @@ with open(os.path.join('..','crabs.cpp'),'w') as outcrabs:
 					sys.exit()
 				with open(TEMPFILE,'rb') as f:
 					inbytes=f.read()
-				shutil.copyfile(TEMPFILE,'{}.lz4'.format(variable_name.format(i)))
+				shutil.copyfile(TEMPFILE,'{}.sa'.format(variable_name.format(i)))
 				lines=textwrap.wrap(', '.join(['0x{:02x}'.format(ord(x)) for x in inbytes]))
 
 				local_var = variable_name.format(i)
