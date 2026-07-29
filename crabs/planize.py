@@ -23,7 +23,7 @@ if format == "lz4ecm":
 	format = "lz4"
 elif format in ["lz4_8088", "lz48088", "lz4trixter"]:
 	format = "lz4old"
-if format in ["lzsa2", "lzsa1", "lz4", "lz4old"]:
+if format in ["lzsa2", "lzsa2raw", "lzsa1", "lzsa1raw", "lz4", "lz4old"]:
 	if aliasformat == format:
 		print "Format: %s" % format
 	else:
@@ -82,9 +82,15 @@ with open(os.path.join('..','crabs.cpp'),'w') as outcrabs:
 				elif format == "lzsa1":
 					cmd = ['lzsa', '-N', '-S', '-f', '1', '--prefer-ratio', '-v', '-', TEMPFILE]
 					ext = "sa1"
+				elif format == "lzsa1raw":
+					cmd = ['lzsa', '-r', '-f', '1', '--prefer-ratio', '-v', '-', TEMPFILE]
+					ext = "rs1"
 				elif format == "lzsa2":
 					cmd = ['lzsa', '-N', '-S', '-f', '2', '--prefer-ratio', '-v', '-', TEMPFILE]
 					ext = "sa2"
+				elif format == "lzsa2raw":
+					cmd = ['lzsa', '-r', '-f', '2', '--prefer-ratio', '-v', '-', TEMPFILE]
+					ext = "rs2"
 				proc=subprocess.Popen(
 					cmd,
 					stdin=subprocess.PIPE,
