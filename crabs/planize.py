@@ -15,6 +15,22 @@ FILES=[
 	('transcrab_plane{}','trans_crab_flag','crabtran256.png'),
 	('autistic_plane{}','autistic_pride_flag','autistic_pride_flag_256.png'),
 ]
+format = "lzsa2"
+if len(sys.argv) > 1 and sys.argv[1] is not None:
+	format = sys.argv[1].lower()
+aliasformat = format
+if format == "lz4ecm":
+	format = "lz4"
+elif format in ["lz4_8088", "lz48088", "lz4trixter"]:
+	format = "lz4old"
+if format in ["lzsa2", "lzsa1", "lz4", "lz4old"]:
+	if aliasformat == format:
+		print "Format: %s" % format
+	else:
+		print "Format: %s (alias of %s)" % (aliasformat, format)
+else:
+	print "Error: Unknown format \"%s\"" % format
+	sys.exit(1)
 with open(os.path.join('..','crabs.cpp'),'w') as outcrabs:
 	print >>outcrabs,"""
 #include <stdlib.h>
@@ -57,19 +73,32 @@ with open(os.path.join('..','crabs.cpp'),'w') as outcrabs:
 			for i,buffer in enumerate(outbuffers):
 				with open('{}.bin'.format(variable_name.format(i)), 'wb') as of:
 					of.write(''.join(buffer))
+				if format == "lz4old":
+					cmd = ['lz4demo', '-c2s', 'stdin', TEMPFILE]
+					ext = "ol4"
+				elif format == "lz4":
+					cmd = ['lz4', '-f', '--best', 'stdin', TEMPFILE]
+					ext = "lz4"
+				elif format == "lzsa1":
+					cmd = ['lzsa', '-N', '-S', '-f', '1', '--prefer-ratio', '-v', '-', TEMPFILE]
+					ext = "sa1"
+				elif format == "lzsa2":
+					cmd = ['lzsa', '-N', '-S', '-f', '2', '--prefer-ratio', '-v', '-', TEMPFILE]
+					ext = "sa2"
 				proc=subprocess.Popen(
-					['lzsa', '-N', '-S', '-f', '2', '--prefer-ratio', '-v', '-', TEMPFILE],
+					cmd,
 					stdin=subprocess.PIPE,
 					stdout=subprocess.PIPE,
 					stderr=subprocess.STDOUT
 				)
 				stdout,_=proc.communicate(''.join(buffer))
+				dumpname = '%s.%s' % (variable_name.format(i), ext)
 				if proc.returncode!=0:
-					print 'Failed to compress {}'.format(outfile)
+					print 'Failed to compress %s' % dumpname
 					sys.exit()
 				with open(TEMPFILE,'rb') as f:
 					inbytes=f.read()
-				shutil.copyfile(TEMPFILE,'{}.sa'.format(variable_name.format(i)))
+				shutil.copyfile(TEMPFILE, dumpname)
 				lines=textwrap.wrap(', '.join(['0x{:02x}'.format(ord(x)) for x in inbytes]))
 
 				local_var = variable_name.format(i)
