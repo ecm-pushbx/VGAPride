@@ -12,7 +12,7 @@
 
         CODESEG
 
-PUBLIC  _lz4_decompress
+PUBLIC  _depacker
 
 ; Must declare this in the code segment.
 SHR4table:
@@ -89,7 +89,7 @@ SHR4table:
 ; After Pavel's speedups:
 ; New timings:          shuttle  81982 text 43664 robotron 296081 +++
 
-PROC    _lz4_decompress CPP       far
+PROC    _depacker CPP       far
 ARG     inb:DWORD, outb:DWORD
 USES    DI,SI,BP
         push    ds              ;preserve compiler assumptions
@@ -223,7 +223,10 @@ buildmcount:                    ;build full match length count - AX is 0
         pop     ds              ;restore compiler assumptions
         ret
 
-ENDP    _lz4_decompress
+ENDP    _depacker
 
+	DATASEG
+PUBLIC _depackername
+_depackername:	db "lz4_8088",0
 
         END
