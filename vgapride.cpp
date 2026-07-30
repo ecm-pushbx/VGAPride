@@ -104,7 +104,7 @@ int main(int argc, char**argv){
 		}
 	}
 	if (benchmark) {
-		printf("\nFlag \"%s\" not found.\n",argv[1]);
+		printf("\nFlag \"%s\" not found.\n",argv[namearg]);
 		return 2;
 	}
 	// If we didn't find a flag, see if they were asking for a LIST
