@@ -9,6 +9,8 @@
 #include "keys.h" 
 #include <alloc.h>
 
+extern "C" const char far depackername[];
+
 unsigned int waitForKey(){
 	unsigned int ret=getch();
 	if(ret==0){
@@ -100,6 +102,10 @@ int main(int argc, char**argv){
 				getch();
 			}
 			closegraph();
+			if (benchmark) {
+				printf("Benchmark flag \"%s\" depacker \"%s\"\n",
+					argv[namearg], depackername);
+			}
 			return 0;
 		}
 	}
