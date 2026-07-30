@@ -23,6 +23,10 @@ if format == "lz4ecm":
 	format = "lz4"
 elif format in ["lz4_8088", "lz48088", "lz4trixter"]:
 	format = "lz4old"
+elif format == "lzsa2r":
+	format = "lzsa2raw"
+elif format == "lzsa1r":
+	format = "lzsa1raw"
 if format in ["lzsa2", "lzsa2raw", "lzsa1", "lzsa1raw", "lz4", "lz4old"]:
 	if aliasformat == format:
 		print "Format: %s" % format
