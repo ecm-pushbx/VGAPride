@@ -78,13 +78,21 @@ int startGraphics(){
 
 int main(int argc, char**argv){
 	int i; // Borland Turbo C++ has leaky forloops
-	unsigned namearg = 1, benchmark = 0;
+	unsigned namearg = 1, benchmark = 0, repeat = 1, repeatoriginal = 1;
 
-	if (argc == 3
+	if ((argc == 3 || argc == 4)
 		&& (stricmp(argv[1], "benchmark") == 0
 			|| stricmp(argv[1], "bench") == 0)) {
 		++ namearg;
 		++ benchmark;
+		if (argc == 4) {
+			repeat = atoi(argv[3]);
+			if (!repeat) {
+				printf("\nInvalid repeat amount: \"%s\"\n",argv[3]);
+				return 2;
+			}
+			repeatoriginal = repeat;
+		}
 	} else if (argc !=2 ) {
 		displayUsage();
 		return 2;
@@ -97,14 +105,20 @@ int main(int argc, char**argv){
 			if(ret!=0){
 				return 0;
 			}
-			showFlag(flag, false);
+			while (repeat--) {
+				showFlag(flag, false);
+			}
 			if (!benchmark) {
 				getch();
 			}
 			closegraph();
 			if (benchmark) {
-				printf("Benchmark flag \"%s\" depacker \"%s\"\n",
+				printf("Benchmark flag \"%s\" depacker \"%s\"",
 					argv[namearg], depackername);
+				if (repeatoriginal > 1) {
+					printf(" for %u runs", repeatoriginal);
+				}
+				printf("\n");
 			}
 			return 0;
 		}
