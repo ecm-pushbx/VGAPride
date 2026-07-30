@@ -76,24 +76,36 @@ int startGraphics(){
 
 int main(int argc, char**argv){
 	int i; // Borland Turbo C++ has leaky forloops
+	unsigned namearg = 1, benchmark = 0;
 
-	if(argc!=2){
+	if (argc == 3
+		&& (stricmp(argv[1], "benchmark") == 0
+			|| stricmp(argv[1], "bench") == 0)) {
+		++ namearg;
+		++ benchmark;
+	} else if (argc !=2 ) {
 		displayUsage();
 		return 2;
 	}
 	for(i=0;;i++){
 		Flag *flag=PRIDE_FLAGS[i];
 		if(flag==NULL)break;
-		if(flag->match(argv[1])){
+		if(flag->match(argv[namearg])){
 			int ret=startGraphics();
 			if(ret!=0){
-				return 0; 
+				return 0;
 			}
 			showFlag(flag, false);
-			getch();
+			if (!benchmark) {
+				getch();
+			}
 			closegraph();
 			return 0;
 		}
+	}
+	if (benchmark) {
+		printf("\nFlag \"%s\" not found.\n",argv[1]);
+		return 2;
 	}
 	// If we didn't find a flag, see if they were asking for a LIST
 	if(stricmp(argv[1], "list")==0){
