@@ -81,7 +81,7 @@ static int polygon_points[32];
 
 char far * volatile vga_ptr = (char far *)MK_FP(0xA000,0);
 
-extern "C" unsigned int far lzsa_depack(const void far *inbuffer, void* far outbuffer);
+extern "C" unsigned int far depacker(const void far *inbuffer, void* far outbuffer);
 
 #define PLANE_SIZE 38656 // 640*480/8 + 256
 
@@ -112,7 +112,7 @@ void DecompressStringIntoPlane(const unsigned char far *compressed_plane, int pl
 
 	SetVGAMapRegister(1 << plane);
 
-	lzsa_depack((const void far *)compressed_plane, plane_buffer);
+	depacker((const void far *)compressed_plane, plane_buffer);
 	memcpy(vga_ptr, plane_buffer, PLANE_SIZE);
 	farfree(plane_buffer);
 
