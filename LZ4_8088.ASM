@@ -227,6 +227,9 @@ ENDP    _depacker
 
 	DATASEG
 PUBLIC _depackername
-_depackername:	db "lz4_8088",0
+_depackername	db "lz4_8088",0
+
+PUBLIC _depackerattribution
+_depackerattribution	db "lz4_8088 decompression code: Jim Leonard",0
 
         END
