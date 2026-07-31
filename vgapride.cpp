@@ -10,6 +10,7 @@
 #include <alloc.h>
 
 extern "C" const char far depackername[];
+extern "C" const char far depackerattribution[];
 
 unsigned int waitForKey(){
 	unsigned int ret=getch();
@@ -202,7 +203,7 @@ void quickFlags(){
 
 void displayUsage(){
 	printf("VGAPride %s by Foone Turing (@foone@digipres.club), 2022-2023. Other credits:\n", VERSION);
-	printf(" * lzsa decompression code: ecm 2026, Copyright (C) 2019 Emmanuel Marty\n");
+	printf(" * %s\n", depackerattribution);
 	printf(" * Aegosexual Flag: Keiya (@keiyakins)\n");
 	printf(" * Many flags: Rebecca G. Bettencourt (@RebeccaRGB)\n");
 	printf(" * Autistic Pride Flag licensed under a Creative Commons Attribution-ShareAlike 4.0 International License, from autisticempire.com/autistic-pride/\n");
