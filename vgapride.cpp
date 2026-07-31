@@ -119,12 +119,6 @@ int main(int argc, char**argv){
 			closegraph();
 			if (benchmark) {
 				disptime(argv[namearg], repeatoriginal);
-				printf("Benchmark flag \"%s\" depacker \"%s\"",
-					argv[namearg], depackername);
-				if (repeatoriginal > 1) {
-					printf(" for %u runs", repeatoriginal);
-				}
-				printf("\n");
 			}
 			return 0;
 		}
