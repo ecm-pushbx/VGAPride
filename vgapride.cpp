@@ -11,6 +11,8 @@
 
 extern "C" const char far depackername[];
 extern "C" const char far depackerattribution[];
+extern "C" void far savetime(void);
+extern "C" void far disptime(const char far * flagname, unsigned repeat);
 
 unsigned int waitForKey(){
 	unsigned int ret=getch();
@@ -102,7 +104,9 @@ int main(int argc, char**argv){
 		Flag *flag=PRIDE_FLAGS[i];
 		if(flag==NULL)break;
 		if(flag->match(argv[namearg])){
-			int ret=startGraphics();
+			int ret;
+			savetime();
+			ret = startGraphics();
 			if(ret!=0){
 				return 0;
 			}
@@ -114,6 +118,7 @@ int main(int argc, char**argv){
 			}
 			closegraph();
 			if (benchmark) {
+				disptime(argv[namearg], repeatoriginal);
 				printf("Benchmark flag \"%s\" depacker \"%s\"",
 					argv[namearg], depackername);
 				if (repeatoriginal > 1) {
